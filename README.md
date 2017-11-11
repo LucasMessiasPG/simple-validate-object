@@ -32,7 +32,7 @@ OR
 apply rules
 
     let 	
-		Validator = require("Validator"),
+		SimpleValidateObject = require("simple-validate-object"),
 		myObj = {
 			name: "Roberto J. Mattie",
 			username: "roberto@gmail.com",
@@ -53,7 +53,7 @@ apply rules
 		};
 
 	let	
-		validator = new Validator(),
+		validator = new SimpleValidateObject(),
 		err = validator.validate(rules, myObj)
 
 	console.log(err)
