@@ -66,11 +66,11 @@ let
 
 console.log(err);
 
-//	{
-//		isValid: false,
-//		hasError: true,
-//		errors: [ 'name of game.favorite.name needs to be of the type string' ]
-//	}
+//{
+//	isValid: false,
+//	hasError: true,
+//	errors: [ 'name of game.favorite.name needs to be of the type string' ]
+//}
 ```
 
 ### Sublevel
