@@ -4,8 +4,8 @@
 
 create rules
 
-    let
-	    rules = {
+    let		
+		rules = {
 			name: "required|string",
 			username: "required|string",
 			surname: "string",
@@ -19,8 +19,8 @@ create rules
 		};
 OR
 
-    let
-	    rules = {
+    let		
+		rules = {
 			name: "required|string",
 			username: "required|string",
 			surname: "string",
@@ -31,8 +31,8 @@ OR
 
 apply rules
 
-    let
-	    Validator = require("Validator"),
+    let 	
+		Validator = require("Validator"),
 		myObj = {
 			name: "Roberto J. Mattie",
 			username: "roberto@gmail.com",
@@ -52,13 +52,13 @@ apply rules
 			}
 		};
 
-	let
+	let	
 		validator = new Validator(),
 		err = validator.validate(rules, myObj)
 
 	console.log(err)
 	// { 
-	// 	    isValid: false,
+	// 	isValid: false,
 	//   	hasError: true,
 	//   	errors: [ 'name of game.favorite.name needs to be of the type string' ] 
 	// }
@@ -66,17 +66,17 @@ apply rules
 ### Sublevel
 
     for(let item of myObj.list){
-	    let
-		    _rules = {
-			    name: "required|string",
-			    action: "boolean",
-			    puzzle: "boolean
-		    },
-		    err = validator.validate(_rules, item)
+		let	
+			_rules = {
+		    	name: "required|string",
+		    	action: "boolean",
+		    	puzzle: "boolean
+			},
+			err = validator.validate(_rules, item)
 		....
     }
 
-##Params validate
+## Params validate
 
  1. required
  2. string
