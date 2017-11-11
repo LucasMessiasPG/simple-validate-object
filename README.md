@@ -81,7 +81,7 @@ for(let item of myObj.list){
 		_rules = {
 			name: "required|string",
 			action: "boolean",
-			puzzle: "boolean
+			puzzle: "boolean"
 		},
 		err = validator.validate(_rules, item)
 	....
