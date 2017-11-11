@@ -1,80 +1,92 @@
 # simple-validate-object
 
+Simple validator was created for validate a simple object =D
+
 ## Example
 
 create rules
 
-    let		
-		rules = {
-			name: "required|string",
-			username: "required|string",
-			surname: "string",
-			age: "required|number",
-			games:{
-				list: "required|array",
-				favorite: {
-					name: "string"
-				}
+```javascript
+let
+	rules = {
+		name: "required|string",
+		username: "required|string",
+		surname: "string",
+		age: "required|number",
+		games:{
+			list: "required|array",
+			favorite: {
+				name: "string"
 			}
-		};
+		}
+	};
+```
 OR
-
-    let		
-		rules = {
-			name: "required|string",
-			username: "required|string",
-			surname: "string",
-			age: "required|number",
-			"games.list": "required|array",
-			"games.favorite.name": "required|string"
-		};
+```javascript
+let
+	rules = {
+		name: "required|string",
+		username: "required|string",
+		surname: "string",
+		age: "required|number",
+		"games.list": "required|array",
+		"games.favorite.name": "required|string"
+	};
+```
 
 apply rules
 
-    let 	
-		SimpleValidateObject = require("simple-validate-object"),
-		myObj = {
-			name: "Roberto J. Mattie",
-			username: "roberto@gmail.com",
-			surname: "BigBig",
-			age: 27,
-			games:{
-				list: [
-					{
-						name: "anyName1",
-						action: true,
-						puzzle: false
-					}
-				],
-				favorite: {
-					name: true
+```javascript
+let 
+	SimpleValidateObject = require("simple-validate-object"),
+	myObj = {
+		name: "Roberto J. Mattie",
+		username: "roberto@gmail.com",
+		surname: "BigBig",
+		age: 27,
+		games:{
+			list: [
+				{
+					name: "anyName1",
+					action: true,
+					puzzle: false
 				}
+			],
+			favorite: {
+				name: true
 			}
-		};
+		}
+	};
+```
 
-	let	
-		validator = new SimpleValidateObject(),
-		err = validator.validate(rules, myObj)
+```javascript
+let
+	validator = new SimpleValidateObject(),
+	err = validator.validate(rules, myObj);
 
-	console.log(err)
-	// { 
-	// 	isValid: false,
-	//   	hasError: true,
-	//   	errors: [ 'name of game.favorite.name needs to be of the type string' ] 
-	// }
+console.log(err);
+
+//	{
+//		isValid: false,
+//		hasError: true,
+//		errors: [ 'name of game.favorite.name needs to be of the type string' ]
+//	}
+```
 
 ### Sublevel
 
-    for(let item of myObj.list){
-		let	
-			_rules = {
-		    	name: "required|string",
-		    	action: "boolean",
-		    	puzzle: "boolean
-			},
-			err = validator.validate(_rules, item)
-		....
-    }
+```javascript
+for(let item of myObj.list){
+	let
+		_rules = {
+			name: "required|string",
+			action: "boolean",
+			puzzle: "boolean
+		},
+		err = validator.validate(_rules, item)
+	....
+}
+```
 
 ## Params validate
 
