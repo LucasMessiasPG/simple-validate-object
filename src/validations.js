@@ -3,10 +3,10 @@
 class Validations{
 
 	constructor(field, input, rules){
-		this._errors = new Set();
+		this._errors = {};
 		this.field = field;
 		this.input = input;
-
+		
 		if(!rules) rules = [];
 
 		if(typeof rules === "string") rules = [rules];
@@ -16,7 +16,7 @@ class Validations{
 
 	validate(rules){
 		let
-			hasInput = typeof this.input !== "undefined";
+			hasInput = typeof this.input !== "undefined" && this.input !== null;
 
 		for(let rule of rules){
 
@@ -30,21 +30,14 @@ class Validations{
 			}
 
 			if(typeof this[rule] !== "function"){
-				this._errors.add("Invalid rule: "+rule);
+				this.addError(rule, "Invalid rule");
 			}else{
 				if(this[rule](params) === false){
 					if(rule == "required"){
-						this._errors.add(this.field+" is required");
+						this.addError(this.field,"required");
 					}else{
 						if(hasInput){
-							let
-								_field = this.field.split(".");
-
-							if(_field.length > 1){
-								this._errors.add(_field[_field.length -1]+" of "+_field.join(".")+" needs to be of the type "+ rule);
-							}else{
-								this._errors.add(this.field+" needs to be of the type "+ rule);
-							}
+							this.addError(this.field,rule);
 						}
 					}
 				}
@@ -52,11 +45,16 @@ class Validations{
 		}
 
 		return {
-			hasError: this._errors.size > 0,
-			isValid: this._errors.size === 0,
-			totalError: this._errors.size,
-			errors: Array.from(this._errors)
+			errors: this._errors
 		};
+	}
+
+	addError(field, param){
+		if(!this._errors[field]){
+			this._errors[field] = [];
+		}
+		this._errors[field].push(param);
+		return this._errors;
 	}
 
 	required(){

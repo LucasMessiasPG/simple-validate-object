@@ -2,6 +2,12 @@
 
 Simple validator was created for validate a simple object =D
 
+## Install
+
+```javascript
+	npm install simple-validate-object --save
+```
+
 ## Example
 
 create rules
@@ -68,8 +74,7 @@ console.log(err);
 
 //{
 //	isValid: false,
-//	hasError: true,
-//	errors: [ 'name of game.favorite.name needs to be of the type string' ]
+//	errors: { name: ["string"] }
 //}
 ```
 

@@ -7,52 +7,13 @@ class MainValidateion{
 
 	constructor(){}
 
-	getFinalValuesOfPath_(originalPath, data, path, rules, onlyPath){
-		let current_path = path.split(".")[0];
-		let _path = path.split(".");
-
-
-		if(_path.length == 1){
-			if(onlyPath){
-				return {
-					full: "\'" + current_path  + "\' of \'" + originalPath + "\' not found",
-					current_path: current_path,
-					originalPath: originalPath,
-					translated_current_path: this.tryTranslatePath(current_path)
-				};
-			}
-
-			if(typeof data[current_path] == "undefined"){
-				return null;
-			}
-			return data[current_path];
-		}
-
-		_path.shift();
-
-		if(!data[current_path]){
-			if(rules[originalPath].indexOf("required") !== -1){
-				if(onlyPath){
-					return {
-						full: "\'" + current_path  + "\' of \'" + originalPath + "\' not found",
-						current_path: current_path,
-						originalPath: originalPath,
-						translated_current_path: this.tryTranslatePath(current_path)
-					};
-				}
-				return null;
-			}else{
-				return false;
-			}
-		}
-		return this.getFinalValuesOfPath(originalPath, data[current_path], _path.join("."), rules, onlyPath);
-	}
-
 	validate(rules, data){
-		let err = new Set();
+		let err = {};
 		data = data || {};
 
-		let
+		let 
+			_isValid = true,
+			_errors = [],
 			normalizedPathOfRules = this.makePathString(rules);
 
 
@@ -64,9 +25,17 @@ class MainValidateion{
 			if(!result.data){
 				if(rule.params.indexOf("required") != -1){
 					if(result.finalPath == result.originalPath){
-						err.add(result.finalPath+" is required");
+						if(!err[result.finalPath]){
+							err[result.finalPath] = [];
+						}
+						err[result.finalPath].push("required");
+						_isValid = false;
 					}else{
-						err.add(result.finalPath+" of "+result.originalPath+" is required");
+						if(!err[result.originalPath]){
+							err[result.originalPath] = []
+						}
+						err[result.originalPath].push("required");
+						_isValid = false;
 					}
 					continue;
 				}
@@ -75,17 +44,20 @@ class MainValidateion{
 			let
 				validations = new Validations(result.originalPath, result.data, rule.params.split("|"));
 
-			if(validations.hasError){
-				for(let _err of validations.errors){
-					err.add(_err);
+			for(let key in validations.errors){
+				if(!err[key]){
+					err[key] = [];
 				}
+				err[key] = validations.errors[key];
+				_isValid = false;
 			}
 		}
 
+		_errors = err;
+
 		return {
-			isValid: err.size === 0,
-			hasError: err.size > 1,
-			errors: Array.from(err)
+			isValid: _isValid,
+			errors: _errors
 		};
 	}
 
@@ -112,7 +84,7 @@ class MainValidateion{
 
 		for(let key in field){
 
-			if(typeof field[key] != "object"){
+			if(typeof field[key] !== "object"){
 
 
 				if(!prev){ // fisrt path
