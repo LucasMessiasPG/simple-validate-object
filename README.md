@@ -4,7 +4,7 @@ Simple validator was created for validate a simple object =D
 
 ## Install
 
-```javascript
+```
 	npm install simple-validate-object --save
 ```
 

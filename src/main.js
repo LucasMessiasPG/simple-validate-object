@@ -32,7 +32,7 @@ class MainValidateion{
 						_isValid = false;
 					}else{
 						if(!err[result.originalPath]){
-							err[result.originalPath] = []
+							err[result.originalPath] = [];
 						}
 						err[result.originalPath].push("required");
 						_isValid = false;
