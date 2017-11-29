@@ -1,7 +1,7 @@
 'use strict';
 
 const 
-	Validations = require("./Validations");
+	Validations = require("./validations");
 
 class MainValidateion{
 
